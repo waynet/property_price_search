@@ -1,0 +1,49 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <title>Property Price Search</title>{% load static %}
+  <link rel="stylesheet" href="{% static 'css/reuters.css' %}">
+</head>
+<body>
+  <div id="wrap">
+    <div id="header">
+      {% if request.user.is_authenticated %}
+        <form id="user_form_logout" action="/oidc/logout?next=http://localhost:8000" method="get">
+          {% csrf_token %}Hello {{request.user}}
+          <button type="submit">Logout</button>
+        </form>
+      {% else %}
+        <form id="user_form_login" action="/oidc/authenticate/" method="get">
+          {% csrf_token %}
+          <button type="submit">Member Login</button>
+        </form>
+      {% endif %}
+      <h1>Property Price Search</h1>
+      <h2>Browse Sold Properties from 2010</h2>
+    </div>
+
+    <div class="right">
+      <div id="result">
+        <div id="navigation">
+          <ul id="pager"></ul>
+          <div id="pager-header"></div>
+        </div>
+        <div id="docs"></div>
+      </div>
+    </div>
+
+    <div class="left">
+      <h2>County</h2>
+      <div class="tagcloud" id="county"></div>
+      <h2>Town</h2>
+      <div class="tagcloud" id="town"></div>
+      <h2>Type</h2>
+      <div class="tagcloud" id="type"></div>
+      <div class="clear"></div>
+    </div>
+    <div class="clear"></div>
+  </div>
+</body>
+
+</html>

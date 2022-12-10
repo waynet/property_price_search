@@ -1,0 +1,80 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <meta charset="utf-8">
+  <title>Property Price Search</title>{% load static %}
+  <link rel="stylesheet" href="{% static 'css/reuters.css' %}">
+  <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.7.2/jquery.min.js"></script>
+  <script src="https://ajax.googleapis.com/ajax/libs/jqueryui/1.8.24/jquery-ui.min.js"></script>
+  <link rel="stylesheet" href="https://ajax.googleapis.com/ajax/libs/jqueryui/1.8.24/themes/smoothness/jquery-ui.css">
+  <script data-main="static/js/reuters" src="http://cdnjs.cloudflare.com/ajax/libs/require.js/2.1.5/require.min.js"></script>
+</head>
+<body>
+  <div id="wrap">
+    <div id="header">
+      {% if request.user.is_authenticated %}
+        <form id="user_form_logout" action="/admin/logout" method="get">
+          {% csrf_token %}
+          <button type="submit">Logout </button>
+        </form>
+        <form id="user_form_mem" action="/admin/" method="get">
+          {% csrf_token %}
+          <button type="submit"> Member Area</button>
+        </form>
+        <form id="user_form_save" action="/save_search/" method="post">
+          {% csrf_token %}Hello {{request.user}}
+          <input id="save_search" type="hidden" name="search_url" value=""></input>
+          <button type="submit"> Save Search</button>
+        </form>
+      {% else %}
+        <form id="user_form_login" action="/oidc/authenticate/" method="get">
+          {% csrf_token %}
+          <button type="submit">Member Login</button>
+        </form>
+      {% endif %}
+      <h1>Property Price Search</h1>
+      <h2>Browse Sold Properties from 2010</h2>
+    </div>
+
+    <div class="right">
+      <div id="result">
+        <div id="navigation">
+          <ul id="pager"></ul>
+          <div id="pager-header"></div>
+        </div>
+        <div id="docs"></div>
+      </div>
+    </div>
+
+    <div class="left">
+      <h2>Current Selection</h2>
+      <ul id="selection"></ul>
+
+      <h2>Search</h2>
+      <span id="search_help">(press ESC to close suggestions)</span>
+      <ul id="search">
+        <input type="text" id="query" name="query" autocomplete="off">
+      </ul>
+      
+      <h2>Price</h2>
+      <div class="tagcloud" id="price_range"></div>
+
+      <h2>County</h2>
+      <div class="tagcloud" id="county"></div>
+
+      <h2>City/Town</h2>
+      <div class="tagcloud" id="town"></div>
+
+      <h2>Sold In</h2>
+      <div class="tagcloud" id="year"></div>
+
+      <h2>By County</h2>
+      <div id="countries"></div>
+      <div id="preview"></div>
+
+      <div class="clear"></div>
+    </div>
+    <div class="clear"></div>
+  </div>
+</body>
+</html>
